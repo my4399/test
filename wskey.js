@@ -304,7 +304,7 @@ function notify() {
 (async function ReadCookie() {
   const EnvInfo = $nobyda.isJSBox ? "JD_Cookie" : "CookieJD";
   const EnvInfo2 = $nobyda.isJSBox ? "JD_Cookie2" : "CookieJD2";
-  const EnvInfo3 = $nobyda.isJSBox ? "JD_Cookies" : "CookiesJD";
+  const EnvInfo3 = $nobyda.isJSBox ? "JD_Cookies" : "cookiesJDWS";
   const move = CookieMove($nobyda.read(EnvInfo) || Key, $nobyda.read(EnvInfo2) || DualKey, EnvInfo, EnvInfo2, EnvInfo3);
   const cookieSet = $nobyda.read(EnvInfo3);
   if (DeleteCookie) {
@@ -1662,7 +1662,7 @@ function checkFormat(value) { //check format and delete duplicates
 
 function CookieUpdate(oldValue, newValue, path = 'cookie') {
   let item, type, name = (oldValue || newValue || '').split(/pt_pin=(.+?);/)[1];
-  let total = $nobyda.read('CookiesJD');
+  let total = $nobyda.read('cookiesJDWS');
   try {
     total = checkFormat(JSON.parse(total || '[]'));
   } catch (e) {
@@ -1704,7 +1704,7 @@ function GetCookie() {
       if (ckItems && ckItems.length == 2) {
         const value = CookieUpdate(null, ckItems.join(''))
         if (value.type !== -1) {
-          const write = $nobyda.write(JSON.stringify(value.total, null, 2), "CookiesJD")
+          const write = $nobyda.write(JSON.stringify(value.total, null, 2), "cookiesJDWS")
           $nobyda.notify(`用户名: ${value.name}`, ``, `${value.type==2?`更新`:`写入`}京东 [账号${value.item}] Cookie${write?`成功 🎉`:`失败 ‼️`}`)
         } else {
           console.log(`\n用户名: ${value.name}\n与历史京东 [账号${value.item}] Cookie相同, 跳过写入 ⚠️`)
@@ -1715,7 +1715,7 @@ function GetCookie() {
     } else if (/^https:\/\/ms\.jr\.jd\.com\/gw\/generic\/hy\/h5\/m\/appSign\?/.test(req.url) && req.body) {
       const value = CookieUpdate(CV, req.body, 'jrBody');
       if (value.type) {
-        const write = $nobyda.write(JSON.stringify(value.total, null, 2), "CookiesJD")
+        const write = $nobyda.write(JSON.stringify(value.total, null, 2), "cookiesJDWS")
         $nobyda.notify(`用户名: ${value.name}`, ``, `获取京东 [账号${value.item}] 钢镚Body${write?`成功 🎉`:`失败 ‼️`}`)
       } else {
         throw new Error("写入钢镚Body失败\n未获取该账号Cookie或关键值缺失‼️");
